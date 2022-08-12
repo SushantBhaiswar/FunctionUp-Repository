@@ -1,6 +1,8 @@
-const { Router } = require('express');
+
 const express = require('express');
-const router = express.Router();
+const router = express.Router()
+
+
 
 // *******************************************************************
 router.post("/Players", function (req, res) {
@@ -48,7 +50,7 @@ router.post("/name-query-1", function (req, res) {
     for (let i = 0; i < arr.length; i++) {
         if (inp < arr[i]) {
             f.push(arr[i])
-       }
+        }
     } res.send({ data: f, status: true })
 })
 // *******************************************************************
@@ -85,17 +87,14 @@ router.post("/getvotingstatus", function (req, res) {
     let VotingAge = req.query.age
     let ElegiblePerson = []
     for (let i = 0; i < person.length; i++) {
-       
         if (person[i].age > VotingAge) {
             person[i].votingStartus = true;
             ElegiblePerson.push(person[i])
         }
     }
-    
+
     res.send({ Persons: ElegiblePerson, status: true })
 })
-
-
 
 
 module.exports = router;
