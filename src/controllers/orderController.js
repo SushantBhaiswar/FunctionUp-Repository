@@ -9,7 +9,8 @@ const placeorder = async function (req, res) {
 
     console.log(typeof(req.headers.isfreeappuser))
     console.log((req.headers.isfreeappuser))
-    let orderdata = req.body
+    let orderdata = req.
+    body
 
     if (!req.body.userId)
         res.send("Userid is required")
@@ -35,7 +36,9 @@ const placeorder = async function (req, res) {
 
     const productprice = await productModel.findById(orderdata.productId)
     const userbalance = await userModel.findById(orderdata.userId)
+    userbalance.balance =100
     const updateduserbalance = userbalance.balance - productprice.price;
+
     console.log(updateduserbalance)
 
     if (req.headers.isfreeappuser == true) {
