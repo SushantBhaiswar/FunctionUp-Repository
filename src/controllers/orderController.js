@@ -6,6 +6,9 @@ const userModel = require("../models/userModel")
 
 
 const placeorder = async function (req, res) {
+
+    console.log(typeof(req.headers.isfreeappuser))
+    console.log((req.headers.isfreeappuser))
     let orderdata = req.body
 
     if (!req.body.userId)
@@ -35,7 +38,7 @@ const placeorder = async function (req, res) {
     const updateduserbalance = userbalance.balance - productprice.price;
     console.log(updateduserbalance)
 
-    if (req.headers.isfreeappuser == "true") {
+    if (req.headers.isfreeappuser == true) {
         orderdata.amount = 0
         orderdata.isFreeAppUser = true;
         let CreateData = await orderModel.create(orderdata)
@@ -46,7 +49,7 @@ const placeorder = async function (req, res) {
             return res.send("You have insufficent balance ")
         }
         else {
-            productdata.isFreeAppUser = false;
+            orderdata.isFreeAppUser = false;
             res.send(await userModel.findOneAndUpdate({ _id: orderdata.userId }, { balance: updateduserbalance }, { new: true }))
         }
     }
