@@ -37,13 +37,11 @@ const updateuser = async function (req, res) {
   let userid = req.params.Userid
   let userdata = req.body
   let token = req.headers["x-auth-token"]
-  if (token) {
-    let finduserdetail = await user.findById(userid)
-    if (!finduserdetail) return res.send("user not exist")
-    let updatedata = await user.findOneAndUpdate({ _id: userid }, userdata)
-    return res.send({ UpdatedProfile: updatedata })
-  }
-  return res.send("Token is not present")
+  let finduserdetail = await user.findById(userid)
+  if (!finduserdetail) return res.send("user not exist")
+  let updatedata = await user.findOneAndUpdate({ _id: userid }, userdata, { new: true })
+  return res.send({ UpdatedProfile: updatedata })
+
 }
 
 // delete user
@@ -52,9 +50,9 @@ const deleteuser = async function (req, res) {
   let userid = req.params.Userid
   let finduserdetail = await user.findById(userid)
   if (!finduserdetail) return res.send("user not exist")
-  let updatedata = await user.findOneAndUpdate({ _id: userid }, { isDeleted: true} ,{new : true})
+  let updatedata = await user.findOneAndUpdate({ _id: userid }, { isDeleted: true }, { new: true })
+  console.log(updatedata)
   return res.send({ UpdatedProfile: updatedata })
-
 }
 module.exports.createuser = createuser
 module.exports.userlogin = userlogin

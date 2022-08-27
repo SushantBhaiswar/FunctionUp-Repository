@@ -12,9 +12,9 @@ router.post("/createuser" , usercontroller.createuser)
 router.post("/loginuser",usercontroller.userlogin)
 
 // updateuser
-router.put("/updateuser/:Userid", usercontroller.updateuser)
+router.put("/updateuser/:Userid",Tokenverification.verifyToken, usercontroller.updateuser)
 
 // delete user
-router.put("deleteuser/:Userid",Tokenverification.verifyToken,  usercontroller.deleteuser)
+router.get("/deleteuser/:Userid",Tokenverification.verifyToken,  usercontroller.deleteuser)
 
 module.exports = router
