@@ -15,6 +15,6 @@ router.post("/loginuser",usercontroller.userlogin)
 router.put("/updateuser/:Userid",Tokenverification.verifyToken, usercontroller.updateuser)
 
 // delete user
-router.get("/deleteuser/:Userid",Tokenverification.verifyToken,  usercontroller.deleteuser)
+router.put("/deleteuser/:Userid",Tokenverification.verifyToken,  usercontroller.deleteuser)
 
 module.exports = router

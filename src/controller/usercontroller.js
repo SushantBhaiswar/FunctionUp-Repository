@@ -1,5 +1,4 @@
 const count = require('console')
-
 const user = require('../models/usermodel')
 const jwt = require('jsonwebtoken')
 
@@ -30,7 +29,6 @@ const userlogin = async function (req, res) {
 
   res.send({ status: true, Token: token })
 }
-
 // update user
 
 const updateuser = async function (req, res) {
@@ -51,7 +49,6 @@ const deleteuser = async function (req, res) {
   let finduserdetail = await user.findById(userid)
   if (!finduserdetail) return res.send("user not exist")
   let updatedata = await user.findOneAndUpdate({ _id: userid }, { isDeleted: true }, { new: true })
-  console.log(updatedata)
   return res.send({ UpdatedProfile: updatedata })
 }
 module.exports.createuser = createuser
