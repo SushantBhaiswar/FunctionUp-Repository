@@ -1,6 +1,6 @@
 
 const mid1 = async function (req, res, next) {
-    let header =req.headers.isfreeappuser
+    let header = req.headers.isfreeappuser
     if (!header) {
         res.send("the request is missing a header")
     }
@@ -10,7 +10,7 @@ const mid1 = async function (req, res, next) {
             header = true
         }
         if (header == 'false') {
-            header = false
+            header =  false
         }
          req.headers.isfreeappuser = header
          console.log(typeof(req.headers.isfreeappuser))

@@ -7,15 +7,14 @@ const userModel = require("../models/userModel")
 
 const placeorder = async function (req, res) {
 
-    console.log(typeof(req.headers.isfreeappuser))
-    console.log((req.headers.isfreeappuser))
-    let orderdata = req.
-    body
+    // console.log(typeof(req.headers.isfreeappuser))
+    // console.log((req.headers.isfreeappuser))
+    let orderdata = req.body
 
-    if (!req.body.userId)
-        res.send("Userid is required")
+    if (!orderdata.userId)
+        return res.send("Userid is required")
     if (!req.body.productId)
-        res.send("Productid is required")
+        return res.send("Productid is required")
 
     let validateuserid = ObjectId.isValid(orderdata.userId)
     let validateproductid = ObjectId.isValid(orderdata.productId)
@@ -36,7 +35,6 @@ const placeorder = async function (req, res) {
 
     const productprice = await productModel.findById(orderdata.productId)
     const userbalance = await userModel.findById(orderdata.userId)
-    userbalance.balance =100
     const updateduserbalance = userbalance.balance - productprice.price;
 
     console.log(updateduserbalance)
@@ -53,7 +51,10 @@ const placeorder = async function (req, res) {
         }
         else {
             orderdata.isFreeAppUser = false;
-            res.send(await userModel.findOneAndUpdate({ _id: orderdata.userId }, { balance: updateduserbalance }, { new: true }))
+            orderdata.amount = productprice.price;
+            (await userModel.findOneAndUpdate({ _id: orderdata.userId }, { balance: updateduserbalance }, { new: true }))
+            let createdata = await orderModel.create(orderdata)
+            return res.send({ msg: createdata })
         }
     }
 }
