@@ -13,8 +13,7 @@ router.post("/loginuser",usercontroller.userlogin)
 
 // updateuser
 router.put("/updateuser/:Userid/users",Tokenverification.verifyToken, usercontroller.updateuser)
-
 // delete user
-router.put("/deleteuser/:Userid",Tokenverification.verifyToken,  usercontroller.deleteuser)
+router.put("/deleteuser/:Userid",Tokenverification.AuthenticationCheck,  usercontroller.deleteuser)
 
 module.exports = router

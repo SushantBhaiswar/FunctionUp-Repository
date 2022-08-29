@@ -1,27 +1,27 @@
 const jwt = require('jsonwebtoken')
 
 
-let verifyToken = async function (req, res, next) {
+const AuthenticationCheck = async function (req, res, next) {
     try {
-        const token = req.headers["x-auth-token"]
-        if (!req.headers["x-auth-token"]) {
-            return res.send("Token is not present")
+      let token = req.headers[x-auth-token];
+      if (!token) return res.send({ status: false, message: "token must be present" });
+      let bearerToken = token.split(" ")[1]
+  
+  
+      jwt.verify(bearerToken, "this-is-secreate-message", function (err, decodedToken) {
+        if (err) {
+          return res.status(401).send({ status: false, message: "invalibbbbd token" })
+        } else {
+          console.log(decodedToken)
+          req.loggedInUserId = decodedToken.userId
+          next()
         }
-        //     var jwkToPem = require('jwk-to-pem');
-        //    else  var pem = jwkToPem(jwk);
-        //     jwt.verify(token, pem, { algorithms: ['RS256'] }, function (err, decodedToken) {
-        //     });
-        let decodedToken = jwt.verify(token, "this-is-secreate-message");
-        console.log(decodedToken)
-        if (!decodedToken)
-            return res.send({ status: false, msg: "token is invalid" });
-        else
-        next()
+      })
     }
-    catch (error) {
-        console.log(error)
-        res.send(error)
-    }
+    catch (err) {
+        return res.status(500).send({ status: false, message: err.message })
+      }
+    
 }
  
 // const authorisation = async function(req ,res ,next)
@@ -29,4 +29,5 @@ let verifyToken = async function (req, res, next) {
 //     let decode
 // }
 
-module.exports.verifyToken = verifyToken
+module.exports.AuthenticationCheck = AuthenticationCheck
+

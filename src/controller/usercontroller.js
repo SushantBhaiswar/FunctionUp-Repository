@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt')
 const createuser = async function (req, res) {
   const userdata = req.body
   let pass = userdata.password
-  const salt = "sushantbhaiswar30/11/2000"
+  const salt = await bcrypt.genSalt(10)
   const hashpass = await bcrypt.hash(pass, salt)
   userdata.password = hashpass
   const createdatainmodule = await user.create(userdata)
@@ -20,21 +20,19 @@ const createuser = async function (req, res) {
 const userlogin = async function (req, res) {
 
   const usercredentials = req.body
-  const checkcredentials = await user.findOne({ emailId: usercredentials.emailId, password: usercredentials.password })
-
-
-  if (!checkcredentials) {
-    return res.send("Invaild userid and password")
-  }
+  const checkcredentials = await user.findOne({ emailId: usercredentials.emailId})
+  if (!checkcredentials.emailId) return res.send("email is not valid")
+  const checkpass = await bcrypt.compare(usercredentials.password , checkcredentials.password)
+  if (!checkpass) return res.send("it is invalid")
+  
   let token = jwt.sign({
     userid: checkcredentials._id.toString(),
     name: "Sushant",
     surname: "Bhaiswar"
   }, "this-is-secreate-message")
-
   res.send({ status: true, Token: token })
 }
-// update user
+// update user 
 
 const updateuser = async function (req, res) {
   let userid = req.params.Userid
