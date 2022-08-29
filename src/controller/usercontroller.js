@@ -1,11 +1,16 @@
 const count = require('console')
 const user = require('../models/usermodel')
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 // create user
 
 const createuser = async function (req, res) {
   const userdata = req.body
+  let pass = userdata.password
+  const salt = "sushantbhaiswar30/11/2000"
+  const hashpass = await bcrypt.hash(pass, salt)
+  userdata.password = hashpass
   const createdatainmodule = await user.create(userdata)
   res.send({ msg: createdatainmodule })
 }

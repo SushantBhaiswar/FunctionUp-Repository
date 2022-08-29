@@ -23,5 +23,10 @@ let verifyToken = async function (req, res, next) {
         res.send(error)
     }
 }
+ 
+// const authorisation = async function(req ,res ,next)
+// {
+//     let decode
+// }
 
 module.exports.verifyToken = verifyToken

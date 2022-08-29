@@ -11,6 +11,7 @@ const userschema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    posts :{type : [] , default : []},
     age : Number,
 })
 
