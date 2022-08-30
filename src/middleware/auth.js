@@ -17,11 +17,15 @@ const authenticate = function (req, res, next) {
 
 const authorise = function (req, res, next) {
   // comapre the logged in user's id and the id in request
-  let token = req.headers["x-auth-token"]
-  let userid = req.params.userId
-  let decodetoken = jwttoken.verify(token, "this-is-secret-mesage")
-  if (decodetoken.userId !== userid) return res.send("you are not authorised to do the work")
-  next()
+ try {
+   let token = req.headers["x-auth-token"]
+   let userid = req.params.userId
+   let decodetoken = jwttoken.verify(token, "this-is-secret-mesage")
+   if (decodetoken.userId !== userid) return res.send("you are not authorised to do the work")
+   next()
+ } catch (error) {
+  return res.send(error.message)
+ }
 }
 module.exports.authenticate = authenticate
 module.exports.authorise = authorise
